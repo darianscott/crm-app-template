@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% include _head_title %}
+        {% include _head_description %}
+        {% block stylesheet %}{% endblock%}
+        {% include _appUtils %}
+        {% include _link_sweetalert %}
+        {% include _link_favicon %}
+        {% include _meta_tags %}
+    </head>
+    <body>
+        <div class='header-section'>
+            <header>
+                {% block header_title %}{% endblock %}
+                <nav>
+                        {% include _button_navbar %}
+                </nav>
+            </header>
+        </div>
+        <div class='body-content'>
+            <main>
+                {% block page_content %}
+                {% endblock %}
+            </main>
+        </div>
+        <div class='footer'>
+            <footer>
+                {% include _footer_content %}
+            </footer>
+        </div>
+        <div class='modal-frame'>
+            {% include _modal_frame %}
+        </div>
+        {% include _sweetalert %}
+        {% block script_js %}{% endblock %}
+    </body>
+</html>
