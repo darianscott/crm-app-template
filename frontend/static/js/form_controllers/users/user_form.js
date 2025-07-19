@@ -1,52 +1,41 @@
-import AppUtils from '/app_utils'
+import AppUtils from './app_utils.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  setDefaultFocus()
-  document.addEventListener('click', (event) => {
-    clearFields();
-    disableAllFields();
+  AppUtils.setDefaultFocus();
 
-    const btn = event.target.closest('data-class');
+  document.addEventListener('click', async (event) => {
+    AppUtils.clearFormInputs('yourFormId'); // Optional
+    AppUtils.disableAllFields();
+
+    const btn = event.target.closest('[data-target-class]');
     if (!btn) return;
 
-    const handler = btn.dataset.handler;
     const targetClass = btn.dataset.targetClass;
 
-    // Dispatch the correct function
-    switch (targetClass) {
+    switch (handler) {
       case 'add-user':
-        exposeFieldsByClass(targetClass); // currentGuid passed from context
-        break;
       case 'update-user':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'reset-password':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'enter-training':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'set-reminders':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'enter-license':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'audit-login':
-        exposeFieldsByClass(targetClass);
-        break;
       case 'delete-user':
-        exposeFieldsByClass(targetClass);
+        AppUtils.exposeFieldsByClass(targetClass);
         break;
+
       case 'saveButton':
-        getDataByClass(event.target);
-        giveToRoute(data, event.target);
+        const data = AppUtils.getDataByClass(`.${targetClass}`);
+        await AppUtils.giveToRoute(handler, data);
         break;
+
       case 'close-modal':
-        removeForm();
-        toggleModalVisibility();
+        AppUtils.removeForm();
+        AppUtils.toggleModalVisibility('modal-id', false);
+        break;
+
       default:
-        console.warn("Unhandled user action:", handler);
+        console.warn("Unhandled user action:", targetClass);
         break;
     }
   });
