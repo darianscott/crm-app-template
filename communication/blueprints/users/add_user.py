@@ -15,4 +15,4 @@ def create_user():
         tuple: A JSON response containing the created client and HTTP status code 201.
     """
     data = request.json
-    return jsonify(user_services.add_client(data)), 201
+    return jsonify(user_services.add_user(data)), 201

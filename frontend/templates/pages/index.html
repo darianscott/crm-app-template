@@ -1,5 +1,236 @@
 {% {% extends "base.html" %}%}
 
+{#--- the block containing the dashboard css link ---#}
 {% block 'stylesheet' %}
-<link 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock stylesheet%}
+
+{#--- header title block ---#}
+{% block header_title %}
+CRM
+{% endblock %}
+
+
+{% block page_content %}
+<section id='page-content'>
+    <div class="dashboard">
+
+        <section class='compliance'>
+            <!-- 📑 Compliance: License & Training -->
+            <div class="section-group" id="compliance-section">
+            <h2>Compliance Overview</h2>
+            <div class="table-wrapper" id="license-expiration">
+                <h3>License Expiration</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Users</th>
+                                <th>License</th>
+                                <th>License Id Number</th>
+                                <th>Expires</th>
+                                <th>Days Remaining</th>
+                                <th>Renewal Link</th>
+                                <th>Condition</th>
+                                <th>Compliant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ userName }}</td>
+                                <td>{{ licenseType }}</td>
+                                <td>{{ licenseIdNumber }}</td>
+                                <td>{{ expirationDate }}</td>
+                                <td>{{ daysRemaining }}</td>
+                                <td>{{ renewalLink }}</td>
+                                <td>{{ condition }}</td>
+                                <td>{{ isCompliant ? '✔️' : '❌' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>           
+            </div>
+
+            <div class="table-wrapper" id="training-progress">
+                <h3>Training Hours</h3>
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Users</th>
+                            <th>Required Hours</th>
+                            <th>Completed Hours</th>
+                            <th>Courses</th>
+                            <th>Date Due</th>
+                            <th>Progress</th>
+                            <th>Days Remaining</th>
+                            <th>Condition</th>
+                            <th>Compliant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userName }}</td>
+                            <td>{{ requiredHours }}</td>
+                            <td>{{ completedHours }}</td>
+                            <td>{{ courses }}</td>
+                            <td>{{ dateDue }}</td>
+                            <td>{{ progress }}</td>
+                            <td>{{ daysRemaining }}</td>
+                            <td>{{ condition }}</td>
+                            <td>{{ isCompliant }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>    
+            </div>
+        </section>
+
+        <section class='engagement'>
+            </div>
+            <div class="section-group" id="testimonials-section">
+            <h2>Testimonial Activity</h2>
+
+            <div class="table-wrapper" id="testimonials-pending">
+                <h3>Pending Invitations</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Client Name</th>
+                            <th>Invitation Sent</th>
+                            <th>Last Interaction</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userName }}</td>
+                            <td>{{ clientName }}</td>
+                            <td>{{ invitationSent }}</td>
+                            <td>{{ lastInteraction }}</td>
+                            <td>{{   }}</td>
+                            <td>{{   }}</td>
+                            <td>{{   }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+
+            <div class="table-wrapper" id="testimonials-reminder-queue">
+                <h3>Reminder Queue (Auto Archive after 45 days)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Client Name</th>
+                            <th>Invitation Sent</th>
+                            <th>Reminder Sent</th>
+                            <th>Last Interaction </th>
+                            <th> </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userName }}</td>
+                            <td>{{ clientName }}</td>
+                            <td>{{ invitationSent  }}</td>
+                            <td>{{ reminderSent  }}</td>
+                            <td>{{ lastInteraction  }}</td>
+                            <td>{{   }}</td>
+                            <td>{{   }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+
+            <div class="table-wrapper" id="testimonials-received">
+                <h3>Received Testimonials</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Client Name</th>
+                            <th>Recieved Testimonial</th>
+                            <th>Last Ineraction</th>
+                            <th>Testimonial Status </th>
+                            <th> </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userName }}</td>
+                            <td>{{ clientName }}</td>
+                            <td>{{ recievedTestimonial  }}</td>
+                            <td>{{ lastInteraction  }}</td>
+                            <td>{{ testimonialStatus  }}</td>
+                            <td>{{   }}</td>
+                            <td>{{   }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </section>
+
+        <section class  ='momentum'>
+            </div>
+
+            <!-- 👤 User Momentum -->
+            <div class="section-group" id="user-activity-section">
+            <h2>User Highlights</h2>
+
+            <div class="table-wrapper" id="recent-user-activity">
+                <h3>User Activity (Last 14 Days)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Last Login</th>
+                            <th>Avg Logins/Month</th>
+                            <th># of Active Clients</th>
+                            <th># of Closed Clients </th>
+                            <th># of Sent Invites</th>
+                            <th># Testimonials Recieved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userName }}</td>
+                            <td>{{ lastLogin }}</td>
+                            <td>{{ avgLoginsPerMonth }}</td>
+                            <td>{{ activeClients }}</td>
+                            <td>{{ closedSlients }}</td>
+                            <td>{{ numberInvitationsSent }}</td>
+                            <td>{{ numberTestimonialsRecieved }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+
+            <div class="table-wrapper" id="featured-testimonials">
+                <h3>Highlighted Testimonials</h3>
+                <!-- Standouts + flagged testimonials -->
+            </div>
+        </section>
+
+        <section class='administration'>
+            </div>
+
+            <!-- 🔧 Admin Insights -->
+            <div class="section-group admin-only" id="admin-metrics">
+            <h2>System Metrics</h2>
+            <!-- KPIs, failed validations, load time, etc -->
+            </div>
+        </section>
+
+    </div>
+</section> 
+{% endblock %}
+
+
+
+{#--- the block for script_js ---#}
+{% block script_js %}
+<script src="{{ url_for('static', filename='js/js_dashboard.js') }}"></script>
+{% endblock %}
