@@ -4,10 +4,6 @@ from app import db
 from datetime import datetime
 
 
-
-
-
-
 def get_license_table():
     results = db.session.query(
         License.license_type,

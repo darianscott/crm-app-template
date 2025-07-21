@@ -1,10 +1,11 @@
 import AppUtils from './app_utils.js'
 
 
-function init() {
+async function init() {
 
-  document.addEventListener('DOMContentLoaded', () => {
-    AppUtils.setDefaultFocus();
+    document.addEventListener('DOMContentLoaded', () => {
+    },
+      AppUtils.setDefaultFocus());
 
     document.addEventListener('click', async (event) => {
       AppUtils.clearFormInputs('yourFormId'); // Optional
@@ -42,7 +43,6 @@ function init() {
           break;
       }
     });
-  });
 }
 
 export { init };

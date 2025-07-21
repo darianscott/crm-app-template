@@ -2,6 +2,8 @@ import uuid
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from utils.guid_type import GUID
+from sqlalchemy import DateTime, Column
+from datetime import datetime, timezone
 
 
 
@@ -21,8 +23,8 @@ class TrainingHours(db.Model):
     date_due = db.Column(db.strftime("%m-%d-%Y"))
     days_remaining = db.Column(db.number, (db.expiration_date - (db.Datetime.utcnow().date()).days))
     is_compliant = db.Column(db.Text(50), nullable=False, default='active')
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
-    def __repr__(self):
-       
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    
+    def __repr__(self):   
         return f"<TrainingHours {self.id} - {self.authority} - {self.training_type}>"

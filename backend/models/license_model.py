@@ -2,6 +2,8 @@ import uuid
 from flask_sqlalchemy import SQLAlchemy
 from utils.guid_type import GUID
 from sqlalchemy.sql import func
+from sqlalchemy import DateTime, Column
+from datetime import datetime, timezone
 
 
 db = SQLAlchemy()  # Usually initialized in __init__.py and imported into this file
@@ -16,8 +18,7 @@ class License(db.Model):
     expiration_date = db.Column(db.DateTime, nullable=False)
     is_compliant = db.Column(db.String(50), nullable=False, default='active')  # could also default to calculated in service
     reminder_days = db.Column(db.Integer, nullable=False, default=30)
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
+  
 
     def __repr__(self):
         return f"<License {self.id}>"

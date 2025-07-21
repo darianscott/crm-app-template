@@ -8,7 +8,6 @@ def get_training_table():
         TrainingHours.required_hours,
         TrainingHours.competed_hours,
         TrainingHours.courses,
-        TrainingHours.condition,
         TrainingHours.date_due,
         TrainingHours.progress,
         User.name.label("user_name")
@@ -23,7 +22,6 @@ def get_training_table():
             "requiredHours": row.required_hours,
             "completedHours": row.completed_hours,
             "courses": row.courses,
-            "condition": row.condition,
             "dateDue": row.date_due,
             "progress": row.progress,
             "daysRemaining": row.days_remaining,

@@ -1,6 +1,8 @@
 import uuid
 from flask_sqlalchemy import SQLAlchemy
 from utils.guid_type import GUID
+from sqlalchemy import DateTime, Column
+from datetime import datetime, timezone
 
 db = SQLAlchemy()  # Usually initialized in __init__.py and imported into this file
 
@@ -15,7 +17,8 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"<User {self.first_name} {self.last_name}>"
