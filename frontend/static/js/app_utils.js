@@ -142,8 +142,8 @@ window.AppUtils = {
     },
 
 
-    async  giveToRoute(targetClass, data) {
-        const [action, resource] = target.split('-');
+    async  sendToRoute(targetClass, data) {
+        const [action, resource] = targetClass.split('-');
         const methodMap = {
             add: 'POST',
             update: 'PUT',

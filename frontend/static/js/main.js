@@ -1,7 +1,7 @@
 import AppUtils from '/app_utils.js'
-import { init as initUserForm } from '/form_controllers/users/user_form.js'
-import { init as initIndex } from '/page_controllers/index/index.js'
-import { init as initClientForm } from '/form_controllers/clients/client_form.js'
+import { init as initUserForm } from '/controllers/users/user_form.js'
+import { init as initIndex } from '/controllers/index/index.js'
+import { init as initClientForm } from '/controllers/clients/client_form.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     initIndex();

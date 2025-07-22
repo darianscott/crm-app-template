@@ -3,7 +3,7 @@ from models.user_model import User
 from app import db
 from datetime import datetime
 
-def get_training_table():
+def get_training_hours_table():
     results = db.session.query(
         TrainingHours.required_hours,
         TrainingHours.competed_hours,
@@ -11,7 +11,7 @@ def get_training_table():
         TrainingHours.date_due,
         TrainingHours.progress,
         User.name.label("user_name")
-    ).join(User, User.id == License.user_id).all()
+    ).join(User, User.id == TrainingHours.user_id).all()
     
     table_data = []
     for row in results:

@@ -30,7 +30,7 @@ async function init() {
 
         case 'saveButton':
           const data = AppUtils.getDataByClass(`.${targetClass}`);
-          await AppUtils.giveToRoute(`${targetClass}`, data);
+          await AppUtils.sendToRoute(`${targetClass}`, data);
           break;
 
         case 'close-modal':

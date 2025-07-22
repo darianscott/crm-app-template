@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from backend.services.dashboard.license_table import get_license_table
+from backend.data_controllers.dashboard.license_table import get_license_table
 
 bp = Blueprint("tables", __name__)
 
