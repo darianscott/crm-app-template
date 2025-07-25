@@ -1,11 +1,6 @@
-from utils.guid_type import GUID
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-import uuid
-from sqlalchemy import DateTime, Column
-from datetime import datetime, timezone
+from extensions import db, uuid, DateTime, Column, datetime, timezone, GUID
 
-db = SQLAlchemy()  # Usually initialized in __init__.py and imported into this file
+
 
 # ---- Sample Client Model using UUID ----
 class Client(db.Model):
@@ -25,3 +20,20 @@ class Client(db.Model):
 
     def __repr__(self):
         return f"<Client {self.first_name} {self.last_name}>"
+    
+    def to_dict(self):
+        return {
+            "client_id": str(self.client_id),
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "phone_number": self.phone_number,
+            "street_address": self.street_address,
+            "city": self.city,
+            "state": self.state,
+            "zip_code": self.zip_code,
+            "notes": self.notes,
+            "email": self.email,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+    }
+

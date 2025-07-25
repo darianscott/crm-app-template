@@ -66,21 +66,28 @@ window.AppUtils = {
         const allFields = document.querySelectorAll('input, select, textarea');
 
         allFields.forEach(field => {
-            const fieldClasses = field.classList;
+            // Clear everything first
+            if (!field.hasAttribute('data-preserve')) {
+                field.value = '';
+            }
 
-            if (fieldClasses.contains(targetClass)) {
+            // Then apply enable/disable logic
+            if (field.classList.contains(targetClass)) {
+                field.disabled = false;
                 field.classList.add('active');
-                field.disabled = false; // Optional: enable the input
-            };
+            } else {
+                field.disabled = true;
+                field.classList.remove('active');
+            }
         });
     },
+
 
     async getDataByClass(targetClass) {
         const fields = document.querySelectorAll(targetClass);
         const data = {};
         const missingFields = [];
 
-    // Check for blanks before extracting
         fields.forEach(field => {
             if (
                 field.type !== 'checkbox' &&
@@ -94,55 +101,55 @@ window.AppUtils = {
 
         if (missingFields.length > 0) {
             const fieldNames = missingFields.map(f => f.name || f.id || '[unnamed]');
-
             const result = await Swal.fire({
-            title: 'Incomplete Fields',
-            html: `You left these blank:<br><strong>${fieldNames.join(', ')}</strong><br>Do you want to leave them empty?`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, continue',
-            cancelButtonText: 'No, I’ll fix them'
-        });
-
-        if (!result.isConfirmed) {
-            // Focus the first empty field
-            missingFields[0]?.focus();
-            return null;
-        }
-
-            // Optional: fill with placeholder
-        missingFields.forEach(field => {
-            field.value = field.getAttribute('data-default') || '[blank]';
-        });
-
-        // Now build clean data payload
-        fields.forEach(field => {
-            const name = field.name;
-            let value;
-
-            switch (field.type) {
-            case 'checkbox':
-                value = field.checked;
-                break;
-            case 'number':
-                value = field.value ? Number(field.value) : null;
-                break;
-            case 'date':
-                value = field.value ? new Date(field.value).toISOString() : null;
-                break;
-            default:
-                value = field.value.trim();
-            }
-
-            if (name) data[name] = value;
+                title: 'Incomplete Fields',
+                html: `You left these blank:<br><strong>${fieldNames.join(', ')}</strong><br>Do you want to leave them empty?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, continue',
+                cancelButtonText: 'No, I’ll fix them'
             });
 
-            return data;
-        };
+            if (!result.isConfirmed) {
+                missingFields[0]?.focus();
+                return null; // Exit early
+            }
+
+            // Fill missing fields with placeholder or data-default
+            missingFields.forEach(field => {
+                field.value = field.getAttribute('data-default') || '[blank]';
+            });
+        }
+
+        // Build clean data payload
+        fields.forEach(field => {
+            const name = field.name;
+            if (!name) return;
+
+            let value;
+            switch (field.type) {
+                case 'checkbox':
+                    value = field.checked;
+                    break;
+                case 'number':
+                    value = field.value ? Number(field.value) : null;
+                    break;
+                case 'date':
+                    value = field.value ? new Date(field.value).toISOString() : null;
+                    break;
+                default:
+                    value = field.value.trim();
+            }
+
+            data[name] = value;
+        });
+
+        return data;
     },
 
 
-    async  sendToRoute(targetClass, data) {
+
+    async sendToRoute(targetClass, data) {
         const [action, resource] = targetClass.split('-');
         const methodMap = {
             add: 'POST',
@@ -190,4 +197,19 @@ window.AppUtils = {
             el.disabled = true;
         });
     },
+
+
+    async saveFormData() {
+        const data = AppUtils.getDataByClass(`.${targetClass}`);
+                  
+        try {
+            await AppUtils.sendToRoute(targetClass, data);
+        } catch (error) {
+            console.error('Save failed:', error);
+        }
+        break;
+    }
+
+
+
 }

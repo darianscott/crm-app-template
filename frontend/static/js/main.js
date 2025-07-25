@@ -5,6 +5,7 @@ import { init as initClientForm } from '/controllers/clients/client_form.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     initIndex();
+    initForm();
     AppUtils.restoreFocus();
 
     document.addEventListener('click', async (event) => {

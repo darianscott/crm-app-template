@@ -8,7 +8,7 @@ license table        -     done
 training table
 pending invitation       -   done
 admin metrics table
-user momentum table
+user activities
 exceptional testimonial table
 user activity table
 
@@ -16,6 +16,5 @@ routes and services for:
 admin metrics
 exceptional testimonial table
 training table        =     done
-user momentum table
-user activity table
+user activities table----- done
 pending invitation       -     route done

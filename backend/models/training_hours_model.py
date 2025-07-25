@@ -1,30 +1,44 @@
-import uuid
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from utils.guid_type import GUID
-from sqlalchemy import DateTime, Column
-from datetime import datetime, timezone
+from extensions import db, uuid, DateTime, Column, datetime, timezone, GUID
 
 
-
-db = SQLAlchemy()  # Usually initialized in __init__.py and imported into this file
-
-# ---- Sample Training Hours Model using UUID ----
 class TrainingHours(db.Model):
     __tablename__ = 'training_hours'
     id = db.Column(GUID(), primary_key=True, default=uuid.uuid4)
-    user_id = db.Column(GUID(), nullable=False, foreign_key=True)
-    authority = db.Column(db.String(100), nullable=False)  # Authority providing the training
-    training_type = db.Column(db.String(100), nullable=False)  # Type of training (e.g., online, in-person)
-    hours = db.Column(db.Float, nullable=False)  # Number of training hours
-    date_completed = db.Column(db.DateTime, nullable=False)  # Date when the training was completed
-    certification_url = db.Column(db.String(255), nullable=True)  # URL to the certification or proof of training))
+    user_id = db.Column(GUID(), db.ForeignKey('users.id'), nullable=False)
+    authority = db.Column(db.String(100), nullable=False)
+    training_type = db.Column(db.String(100), nullable=False)
+    hours = db.Column(db.Float, nullable=False)
+    date_completed = db.Column(db.DateTime, nullable=False)
+    certification_url = db.Column(db.String(255), nullable=True)
+
     required_hours = db.Column(db.Float, nullable=False)
-    date_due = db.Column(db.strftime("%m-%d-%Y"))
-    days_remaining = db.Column(db.number, (db.expiration_date - (db.Datetime.utcnow().date()).days))
-    is_compliant = db.Column(db.Text(50), nullable=False, default='active')
+    date_due = db.Column(db.DateTime, nullable=False)
+
+    is_compliant = db.Column(db.Boolean, nullable=False, default=True)
+
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
-    
-    def __repr__(self):   
+
+    # Relationship to User
+    user = db.relationship("User", back_populates="training_hours")
+
+    def __repr__(self):
         return f"<TrainingHours {self.id} - {self.authority} - {self.training_type}>"
+
+    def to_dict(self):
+        days_remaining = (self.date_due.date() - datetime.utcnow().date()).days if self.date_due else None
+        return {
+            "id": str(self.id),
+            "user_id": str(self.user_id),
+            "authority": self.authority,
+            "training_type": self.training_type,
+            "hours": self.hours,
+            "required_hours": self.required_hours,
+            "date_completed": self.date_completed.strftime("%Y-%m-%d"),
+            "date_due": self.date_due.strftime("%Y-%m-%d") if self.date_due else None,
+            "days_remaining": days_remaining,
+            "is_compliant": days_remaining is not None and days_remaining >= 0,
+            "certification_url": self.certification_url,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }

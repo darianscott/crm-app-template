@@ -8,8 +8,7 @@ async function init() {
       AppUtils.setDefaultFocus());
 
     document.addEventListener('click', async (event) => {
-      AppUtils.clearFormInputs('yourFormId'); // Optional
-      AppUtils.disableAllFields();
+
 
       const btn = event.target.closest('[data-target-class]');
       if (!btn) return;
@@ -29,15 +28,14 @@ async function init() {
           break;
 
         case 'saveButton':
-          const data = AppUtils.getDataByClass(`.${targetClass}`);
-          await AppUtils.sendToRoute(`${targetClass}`, data);
-          break;
+          AppUtils.saveFormData();
+        
 
-        case 'close-modal':
+        case 'save-exit':
+          AppUtils.saveFormData();
           AppUtils.removeForm();
           AppUtils.toggleModalVisibility('modal-id', false);
           break;
-
         default:
           console.warn("Unhandled user action:", targetClass);
           break;

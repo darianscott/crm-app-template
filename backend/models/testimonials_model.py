@@ -1,9 +1,6 @@
-import uuid
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from utils.guid_type import GUID
+from extensions import db, uuid, DateTime, Column, datetime, timezone, GUID
 
-db = SQLAlchemy()  # Usually initialized in __init__.py and imported into this file
+
 
 # ---- Sample Testimonials Model using UUID ----
 class Testimonial(db.Model):

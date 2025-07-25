@@ -3,7 +3,7 @@ from clients import update_client_service
 
 bp = Blueprint("client", __name__, url_prefix="client")
 
-@bp.route("/", methods=["POST"])
+@bp.route("/", methods=["PATCH"])
 def update_client():
     """
     Handles the transport of the data to add a new client.

@@ -1,17 +1,136 @@
-<button data-class=''></button>
+<!DOCTYPE html>
+<html>
 
 
 
+    <head>
+         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Management Portal</title>
+        <link rel="stylesheet" href="../css/forms.css">
+        <link rel="icon" type="image/png" href="favicon.png">
 
+    </head>
+    <body>
+        <header>
+            <h1>User Portal</h1>
+            <nav></nav>
+        </header>
+            
+            <section>
+                <div>
+                    <form>                          
+                        <button type='button' id='add-license-btn' data-target-class='add-license'>Add License</button>
+                        <button type='button' id='training-hours-btn'  data-targetv-class='training-hours'>Completed Training</button>
+                        <button type='button' id='requred-training-btn' data-target-class='required-training'>Required Training</button>
+                        <button type='button' id='add-reminders-btn' data-target-class='add-reminders'>Reminders/Task</button>
+                        <button type='button' id='add-clients-btn' data-target-class='add-clients'>Add Clients</button>
+                        <button type='button' id='update-clients-btn' data-target-class='update-clients'>Update Clients</button>
+                        <button type='button' id='add-appointments-btn'data-target-class='add-appointments'>Appointments</button>
+                    </form>
+                </div>
+            </section>
 
+        <main>
+            <section>
+                <div class='add-license'>
+                    <form>
+                        <label>License</label>
+                        <input>
+                        <label>License Number</label>
+                        <input>
+                        <label>Date Issued</label>
+                        <input>
+                        <label>Expiration Date</label>
+                        <input>
+                    </form>
+                </div>
+                <div class='training-hours'>
+                    <form>
+                        <label>Authority</label>
+                        <input>
+                        <label>Training Type</label>
+                        <input>
+                        <label>Hours Completed</label>
+                        <input>
+                        <label>Date Completed</label>
+                        <input>
+                        <label>Certifitcate URL</label>
+                        <input>
+                    </form>
+                </div>
+            </section>
 
+            <section>
+                <div class='required-training'>
+                    <form>
+                        <label>Required Hours</label>
+                        <input>
+                        <label>Date Due by</label>
+                        <input>
+                    </form>
+                </div>
+                <div class='add-reminders'>
+                    <form>
+                        <label>Reminder title</label>
+                        <input>
+                        <label>Due By</label>
+                        <input>
+                        <label>Notes/Task</label>
+                        <textarea></textarea>
+                    </form>
+                </div>
+            </section>
 
+            <section>
+                <div class='add-client update-client' d'>
+                    <form>
+                        <label>Client First Name</label>
+                        <input>
+                        <label>Client Last Name</label>
+                        <input>
+                        <label>Email</label>
+                        <input>
+                        <label>Phone Number</label>
+                        <input>
+                        <label>Street Address</label>
+                        <input>
+                        <label>City</label>
+                        <label>Zip Code</label>
+                        <input>
+                        <label>Notes</label>
+                        <textarea></textarea>
+                    </form>   
+                </div>
+            </section>
 
-<label>user name</label>
-<input>
-<label>first name</label>
-<input>
-<label>last name</label>
-<input>
-<label>email address</label>
-<input>
+            <section>
+                <div class='set-appointment'>
+                    <form>
+                        <label>Client Name</label>
+                        <input>
+                        <label>Place</label>
+                        <input>
+                        <label>Phone Number</label>
+                        <input>
+                        <label>Date</label>
+                        <input>
+                        <label>Time</label>
+                        <input>
+                        <label>Day</label>
+                        <input>
+                        <label>Notes</label>
+                    <textarea></textarea>
+                    </form>   
+                </div>
+            </section>
+        </main>
+        <section>
+            <div>
+                <button class='buton' id='button' type='submit'>Save</button>
+                <button class='exit' id='exit' type='submit'>Exit Form</button>
+            </div>
+        </section>
+        <script src='../js/controllers/users/user_form.js'></script>
+    </body>
+</html>
