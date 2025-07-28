@@ -7,3 +7,5 @@ from .reminders_model import Reminder
 from .interactions_model import Interaction
 from .training_hours_model import TrainingHours
 from .testimonials_model import Testimonial
+from .notes_model impot Notes
+from .appointment_model import Appointments

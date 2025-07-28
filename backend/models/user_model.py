@@ -31,6 +31,14 @@ class User(db.Model):
     reminders = db.relationship("Reminder", back_populates="user", cascade="all, delete-orphan")
     interactions = db.relationship("Interaction", back_populates="user", cascade="all, delete-orphan")
     training_hours = db.relationship("TrainingHours", back_populates="user", cascade="all, delete-orphan")
+    clients = db.relationship("Client", back_populates="user", cascade="all, delete-orphan")
+    appointments = db.relationship("Appointment", back_populates="user", cascade="all, delete-orphan")
+    notes = db.relationship("Notes", back_populates="user", cascade="all, delete-orphan")
+    testimonials = db.relationship("Testimonial", back_populates="user", cascade="all, delete-orphan")
+
+    
+
+
 
     def __repr__(self):
         return f"<User {self.first_name} {self.last_name}>"

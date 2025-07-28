@@ -32,7 +32,7 @@ class TrainingHours(db.Model):
             "user_id": str(self.user_id),
             "authority": self.authority,
             "training_type": self.training_type,
-            "hours": self.hours,
+            "completed_hours": self.hours,
             "required_hours": self.required_hours,
             "date_completed": self.date_completed.strftime("%Y-%m-%d"),
             "date_due": self.date_due.strftime("%Y-%m-%d") if self.date_due else None,

@@ -18,3 +18,9 @@ class Testimonial(db.Model):
     
     def __repr__(self):
         return f"<Testimonial {self.id}>"
+    
+    
+    # Relationships
+    user = db.relationship("User", back_populates="testimonials", cascade="all, delete-orphan")
+    client = db.relationship("Client", back_populates="testimonaial", cascade="all, delete-orphan")
+

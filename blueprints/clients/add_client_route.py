@@ -15,4 +15,4 @@ def create_client():
         tuple: A JSON response containing the created client and HTTP status code 201.
     """
     data = request.json
-    return jsonify(add_client_service.add_client(data)), 201
+    return 

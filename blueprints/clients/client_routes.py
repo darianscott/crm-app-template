@@ -16,7 +16,7 @@ def invitation():
         tuple: A JSON response containing a success message and HTTP status code 200.
     """
     data = request.json
-    send_invite_service(data)
+    backend.data_controlers.clients.send_invite_service(data)
     return jsonify({"message": "Testimonial invitation sent successfully"}), 200
 
  

@@ -9,6 +9,7 @@ class License(db.Model):
     issue_date = db.Column(db.DateTime, nullable=False)
     expiration_date = db.Column(db.DateTime, nullable=False)
     is_compliant = db.Column(db.Boolean, nullable=False, default=True)
+    days_remaining = db.Column(db.Integer,nullable=False, default=365)
     reminder_days = db.Column(db.Integer, nullable=False, default=30)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))

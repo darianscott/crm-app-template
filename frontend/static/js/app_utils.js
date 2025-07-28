@@ -1,15 +1,10 @@
 window.AppUtils = {
 
 
-    clearFormInputs(formId) {
-        const form = document.getElementById(formId);
-        if (!form) {
-            console.warn(`Form with ID "${formId}" not found.`);
-            return;
-        };
-        form.reset();
-    },
-
+    /*** --------------------------------------------------------------------- *
+     *    This Section is focused on setting, restoring, or saving user focus. *
+     *    -------------------------------------------------------------------- *
+    */
 
     setDefaultFocus() {
         const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -40,6 +35,11 @@ window.AppUtils = {
     },
 
 
+    /*** --------------------------------------------------------------------- *
+     *    This Section is focused injecting the form and showing Modal.        *
+     *    -------------------------------------------------------------------- *
+    */
+
     async injectForm(formPath, formId) {
         const modalContent = document.getElementById(formId)
         fetch(formPath)
@@ -47,11 +47,12 @@ window.AppUtils = {
             .then(html => {
                 modalContent.innerHTML = html;
             })
-            .catch(error => console.error('Error fetching form content:', error));
+          .catch(error => console.error('Error fetching form content:', error));
+        },
     },
 
 
-    toggleModalVisibility(elementId, show) {
+    function toggleModalVisibility(elementId, show) {
         if (elementId) {
             if (show) {
                 modal.showModal();
@@ -59,32 +60,38 @@ window.AppUtils = {
                 modal.close();
             }
         };
-    },
+    }
 
 
-    exposeFieldsByClass(targetClass) {
-        const allFields = document.querySelectorAll('input, select, textarea');
 
-        allFields.forEach(field => {
-            // Clear everything first
-            if (!field.hasAttribute('data-preserve')) {
-                field.value = '';
-            }
+    /*** --------------------------------------------------------------------- *
+     *    This Section is focused form specific logic                        . *
+     *    -------------------------------------------------------------------- *
+    */
 
-            // Then apply enable/disable logic
-            if (field.classList.contains(targetClass)) {
-                field.disabled = false;
-                field.classList.add('active');
-            } else {
-                field.disabled = true;
-                field.classList.remove('active');
-            }
+    function exposeSectionsByClass(targetClass) {
+        const allFields = document.querySelectorAll('section');
+
+        AppUtils.clearFields();
+
+        // Then apply enable/disable logic
+        allFields.forEach(section => {
+            const controls = section.querySelectorAll('input, select, textarea, button');
+                if (secton.classList.contains(targetClass)) {
+                    controls.forEach(control => {
+                     control.disabled = false;
+                    section.classlist.add('active')})                    
+                 } else {
+                    section.disabled = true;
+                    section.classList.remove('active');
+                };
         });
-    },
+    }
 
 
-    async getDataByClass(targetClass) {
-        const fields = document.querySelectorAll(targetClass);
+    async function getDataIfActive() {
+       async function getDataIfActive(targetClass) {
+    const fields = document.querySelectorAll(`section.${targetClass}.active input, section.${targetClass}.active textarea`);
         const data = {};
         const missingFields = [];
 
@@ -142,25 +149,23 @@ window.AppUtils = {
             }
 
             data[name] = value;
-        });
+            });
 
-        return data;
-    },
+            return data;
+        };
+    }
 
 
 
-    async sendToRoute(targetClass, data) {
+    async function sendToRoute(targetClass, data) {
         const [action, resource] = targetClass.split('-');
         const methodMap = {
-            add: 'POST',
-            update: 'PUT',
-            assign: 'POST',
-            enter: 'POST'
-            
+            post: 'POST',
+            update: 'UPDATE'
         };
 
         const method = methodMap[action] || 'POST';
-        const endpoint = `/api/${resource}/${action}`;
+        const endpoint = `/api/${resource}`;
 
         try {
             const response = await fetch(endpoint, {
@@ -174,42 +179,50 @@ window.AppUtils = {
         } catch (err) {
             console.error('Route dispatch failed:', err);
         }
-    },
+    };
 
+async function saveFormData() {
+    const data = AppUtils.getDataIfActive('active'); // Already validated
 
-    async logAction(entry) {
+    try {
+        await AppUtils.sendToRoute(targetClass, data);
+        notify('Saved successfully'); // SweetAlert toast
+        AppUtils.clearFields();
+        AppUtils.disableAllSectionns();
+    } catch (error) {
+        console.error('Save failed:', error);
+        notify('Save failed', 'error');
+    }
+}
+
+    /*** --------------------------------------------------------------------- *
+     *    This Section is focused misc form functions.                         *
+     *    -------------------------------------------------------------------- *
+    */
+
+    async function logAction(entry) {
         await fetch('/api/logs/write', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry)
         });
-    },
+    };
 
 
-    clearFields() {
+    function clearFields() {
         resetForm();
-    },
+    };
 
 
-    disableAllFields() {
-        let element = document.querySelectorAll('input, select, textarea, checkbox, radio')
+    function disableAllSectionns() {
+        let element = document.querySelectorAll('section input, section select, section textarea;')
         element.forEach(el => {
             el.disabled = true;
         });
-    },
-
-
-    async saveFormData() {
-        const data = AppUtils.getDataByClass(`.${targetClass}`);
-                  
-        try {
-            await AppUtils.sendToRoute(targetClass, data);
-        } catch (error) {
-            console.error('Save failed:', error);
-        }
-        break;
+        document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+        });
     }
 
 
 
-}

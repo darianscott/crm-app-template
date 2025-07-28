@@ -1,108 +1,32 @@
 /* Simple reset */
 * {
-    box-sizing: border-box;
+    box-sizing: 90%;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
 }
 
-body {
-    margin: auto;
-}
-
-
-main {
-    font-size: 11px;
-    display: flex;
-    gap: 8em;
-    width: fit-content;
-    background-color: slategray;
-}
-
-main input {    
-  font-size: 11px;     
-  box-sizing: content-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-section .add-user {
-    pointer-events: none;
-    opacity: 0.5;
-}
-
 /* Header styling */
-header h1 {
+header {
+    display:flex;
+    justify-content: center;
     font-size: large;
+    padding: 2px;
+    margin: 1px;
 }
 
-/* Flex layout for nav buttons */
 nav {
     display: flex;
-    align-items: auto;
-    align-content: auto;
-    flex-wrap: nowrap;
-    gap: 5px;
+    justify-content:right;
+    margin: 5px;
 }
 
-nav button {
-    padding: 5px 8px;
-    border: none;
-    background-color: #007BFF;
-    color: black;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-/* Grid layout for forms */
-body {
-    display: grid;
-    grid-template-columns: repeat(minmax(60px, 1fr));
-    gap: 15px;
-    padding: 20px;
-    background-color: black;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 10px;
-}
-
-nav button:hover {
-    background-color: #0056b3;
-}
-
-
-
-label{
-    grid-column: span 1;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-input, textarea {
-    grid-column: span 2;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 60px;
-}
-
-/* Submit buttons section */
-section:last-of-type div {
+main { 
+    padding: 3px;
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
 }
 
-button.buton {
-    background-color: #28a745;
-    color: white;
-}
-
-button.delete {
-    background-color: #dc3545;
-    color: white;
+input {
+    height: 15px;
+    width: 100px;
 }

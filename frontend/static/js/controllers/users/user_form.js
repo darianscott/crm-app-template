@@ -16,20 +16,31 @@ async function init() {
       const targetClass = btn.dataset.targetClass;
 
       switch (targetClass) {
-        case 'add-user':
-        case 'update-user':
-        case 'reset-password':
-        case 'enter-training':
-        case 'set-reminders':
-        case 'enter-license':
-        case 'audit-login':
-        case 'delete-user':
-          AppUtils.exposeFieldsByClass(targetClass);
+        case 'update-client':
+          toggleClientName();
+           break;
+
+        case 'post-client':
+        case 'post-training-hours':
+        case 'post-reminders':
+        case 'post-license':
+        case 'post-appointment':
+          AppUtils.exposeSectionsByClass();
           break;
 
         case 'saveButton':
           AppUtils.saveFormData();
-        
+          break;
+
+       case 'getButton':
+          AppUtils.getClientData();
+          AppUtils.exposeSecionsByClass();
+          showClientData();
+          break;
+
+        case 'updateButton':
+          AppUtils.saveFormData();
+          break;
 
         case 'save-exit':
           AppUtils.saveFormData();
