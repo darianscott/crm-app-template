@@ -12,7 +12,7 @@ Each entry defines:
 Used by backend reporting engines and dashboard builders to interpret model structure narratively.
 """
 
-from backend.models import User, Client, License, Reminder, Interaction, TrainingHours, Testimonial, Notes, Appointments
+from models import User, Client, License, Reminder, Interaction, TrainingHours, Testimonial, Notes, Appointments
 
 MODEL_REGISTRY = {
     "user": {
@@ -59,11 +59,11 @@ MODEL_REGISTRY = {
     },
     "reminder": {
         "model": Reminder,
-        "fields": ["title", "due_date", "completed", "date_created",
+        "fields": ["title", "due_date", "is_completed", "date_created",
                    "is_active", "message"
         ],
-        "filters": ["due_date", "completed", "is_active"],
-        "joins": ["users"],
+        "filters": ["due_date", "is_completed", "is_active"],
+        "joins": ["user_id"],
         "user_scope": "user_id",
         "label": "Reminder",
         "description": "User-created reminders for follow-up or tasks"
@@ -115,6 +115,16 @@ MODEL_REGISTRY = {
             "Instead of using other db rows to include notes I"
             "seperated them to their own tables"
         ),
+    },
+    "appointments": {
+        "model": Appointments,
+        "fields": ["title", "date", "is_completed", "appointment_with"
+                   "is_active", "message"
+        ],
+        "filters": ["date", "is_completed", "is_active"],
+        "joins": ["user_id"],
+        "user_scope": "user_id",
+        "label": "Appointments",
+        "description": "User appointments with clients, or anyone they need to meet with"
     }
-    
 }

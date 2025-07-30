@@ -1,9 +1,11 @@
-# app.py
 from flask import Flask
 from extensions import db
-from backend.models import *
+
 
 def create_app():
+    '''
+    Creating the flask application. the db instance
+    '''
     app = Flask(__name__)
 
     # Example config — replace with yours

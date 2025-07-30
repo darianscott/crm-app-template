@@ -1,4 +1,4 @@
-from extensions import db, uuid, DateTime, Column, datetime, timezone, GUID
+from extensions import db, uuid, datetime, timezone, GUID
 
 
 class TrainingHours(db.Model):
@@ -16,8 +16,11 @@ class TrainingHours(db.Model):
 
     is_compliant = db.Column(db.Boolean, nullable=False, default=True)
 
-    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = db.Column(db.DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc))
 
     # Relationship to User
     user = db.relationship("User", back_populates="training_hours")
@@ -26,7 +29,8 @@ class TrainingHours(db.Model):
         return f"<TrainingHours {self.id} - {self.authority} - {self.training_type}>"
 
     def to_dict(self):
-        days_remaining = (self.date_due.date() - datetime.utcnow().date()).days if self.date_due else None
+        days_remaining = (self.date_due.date() -
+            datetime.utcnow().date()).days if self.date_due else None
         return {
             "id": str(self.id),
             "user_id": str(self.user_id),

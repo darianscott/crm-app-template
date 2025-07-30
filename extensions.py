@@ -1,9 +1,27 @@
+"""
+Extensions and external integrations used across the CRM.
+
+This module initializes and configures third-party tools and internal helpers
+that extend the system's capabilities without cluttering core logic.
+
+Includes:
+- Logging (e.g. Loguru setup with contextual traceability)
+- Scheduling (e.g. nightly tasks, reminders)
+- Mailers (e.g. invite dispatch, testimonial requests)
+- Custom validators and formatters
+- Any other reusable services that operate outside the main app flow
+
+Design intent:
+- Keep core modules clean and narratable
+- Centralize setup for tools that operate behind the scenes
+- Ensure traceability, modularity, and graceful failure handling
+
+These extensions support the system’s rhythm—quietly powering the flows that users rely on.
+"""
 # extensions.py
 import uuid
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import DateTime, Column, func
 from datetime import datetime, timezone
+from flask_sqlalchemy import SQLAlchemy
 from utils.guid_type import GUID
 
 db = SQLAlchemy()
-

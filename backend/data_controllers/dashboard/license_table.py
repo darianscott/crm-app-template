@@ -1,7 +1,8 @@
-from models.license_model import License
-from models.user_model import User
-from app import db
 from datetime import datetime
+from backend.models.license_model import License
+from backend.models.user_model  import User
+from app import db
+
 
 
 def get_license_table():

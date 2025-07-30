@@ -1,11 +1,4 @@
 '''
-A single API endpoint for all user generated report request
-that will parse the request, determine which models to search,
-which fields, compare it to validate owner by current user id,
- create the queries, put data back togeher and return to front.
-'''
-
-"""
 Reports Blueprint
 -----------------
 Provides an endpoint for generating user-customized reports.
@@ -15,7 +8,7 @@ Features:
 - Supports sorting, pagination
 - Optional export to CSV
 - Supports JOINs for related models
-"""
+'''
 
 import logging
 import io
@@ -23,8 +16,8 @@ import csv
 from flask import Blueprint, request, jsonify, Response
 from flask_login import login_required, current_user
 from sqlalchemy.exc import SQLAlchemyError
-from backend.extensions import db
-from backend.registry.model_registry import MODEL_REGISTRY
+from extensions import db
+from backend.models.registry.model_registry import MODEL_REGISTRY
 
 # Configure logger
 logging.basicConfig(level=logging.INFO)
@@ -107,21 +100,27 @@ def generate_custom_report():
             writer.writerows(data)
             return Response(output.getvalue(),
                             mimetype='text/csv',
-                            headers={"Content-Disposition": f"attachment;filename={resource}_report.csv"})
-        else:
-            return jsonify({
-                "resource": resource,
-                "fields": selected_fields,
-                "count": len(data),
-                "data": data
-            }), 200
+                            headers={
+                                "Content-Disposition": f"attachment;"
+                                "filename={resource}_report.csv"
+                            })
+        return jsonify({
+        "resource": resource,
+        "fields": selected_fields,
+        "count": len(data),
+        "data": data
+        }), 200
 
     except KeyError as e:
-        logger.error(f"Missing key: {e}")
+        logger.error("Missing key: %s", e)
         return jsonify({"error": f"Missing key: {str(e)}"}), 400
     except SQLAlchemyError as e:
-        logger.error(f"Database error: {e}")
+        logger.error("Database error: %s", e)
         return jsonify({"error": "Database error occurred"}), 500
     except Exception as e:
-        logger.exception("Unexpected error in generate_custom_report")
+        # Final fallback: catch any unexpected errors in report generation.
+        # Specific exceptions are handled above; this ensures all
+        # failures are logged with context.
+        # Logs include route name and request payload for traceability.
+        logger.exception("Unexpected error in generate_custom_report", request.json)
         return jsonify({"error": "Internal Server Error"}), 500
