@@ -14,8 +14,8 @@ export function user_activity_payload() {
                 updated_at: true
             }
         },
-        joins: true,
-        sort_by: user.last_name,
+        joins: '',
+        sort_by: '',
         format: 'json'
     };
 }

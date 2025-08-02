@@ -4,8 +4,9 @@ import AppUtils from './app_utils.js'
 async function init() {
 
     document.addEventListener('DOMContentLoaded', () => {
-    },
-      AppUtils.setDefaultFocus());
+
+    let method = '';
+    AppUtils.setDefaultFocus();
 
     document.addEventListener('click', async (event) => {
 
@@ -24,7 +25,6 @@ async function init() {
         case 'post-training-hours':
         case 'post-reminders':
         case 'post-license':
-        case 'post-appointment':
           AppUtils.exposeSectionsByClass();
           break;
 
@@ -50,8 +50,9 @@ async function init() {
         default:
           console.warn("Unhandled user action:", targetClass);
           break;
-      }
-    });
-}
-
+      };
+    })
+  })
+}  
+  
 export { init };
