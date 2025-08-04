@@ -1,11 +1,14 @@
 import AppUtils from '/app_utils.js'
 import { init as initUserForm } from '/controllers/users/user_form.js'
 import { init as initIndex } from '/controllers/index/index.js'
-import { init as initClientForm } from '/controllers/clients/client_form.js'
+import { init as initReportsForm } from '/controllers/reports/reports_form.js'
+import { init as initAdminForm } from '/controllers/admin/admin_form.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     initIndex();
-    initForm();
+    initUserForm();
+    initReportsForm();
+    initAdminForm();
     AppUtils.restoreFocus();
 
     document.addEventListener('click', async (event) => {

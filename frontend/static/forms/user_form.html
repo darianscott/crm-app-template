@@ -1,91 +1,54 @@
 <!DOCTYPE html>
-<html>
-
-
-
+<html lang='en'>
     <head>
-         <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>User Management Portal</title>
-        <link rel="stylesheet" href="../css/forms.css">
+        <link rel="stylesheet" href="../css/user_form.css">
         <link rel="icon" type="image/png" href="favicon.png">
-
     </head>
     <body>
         <header>
             <h1>User Portal</h1>
             <nav>
-                <button type='button' id='post-license' data-target-class='post-license'>Add License</button>
-                <button type='button' id='training-hours'  data-targetv-class='patch-training-hours'>Completed Training</button>
-                <button type='button' id='requred-training' data-target-class='required-hours'>Required Training</button>
-                <button type='button' id='add-reminders' data-target-class='post-reminders'>Reminders/Task</button>
-                <button type='button' id='add-clients' data-target-class='post-clients'>Add Clients</button>
-                <button type='button' id='update-clients' data-target-class='patch-clients'>Update Clients</button>
-                <button type='button' id='post-appointments'data-target-class='post-appointments'>Appointments</button>
+                <button type='button' id='training-hours'  data-target-class='training-hours'>Completed Training</button>
+                <button data-method='post' type='button' id='todo' data-target-class='todo'>Reminders/Task</button>
+                <button data-method='post' type='button' id='add-clients' data-target-class='post-clients'>Add Clients</button>
+                <button data-mthod='paste' type='button' id='update-clients' data-target-class='patch-clients'>Update Clients</button>
             </nav>
         </header>
 
-        <main>
-            <section>
-                <section class='post-license'>
-                    <div class='post-license'>
-                        <form class='post-license'>
-                            <label for='license'>License</label>
-                            <input disabled='true' disabled='true id='license' placeholder='Name Of License'>
-                            <label for='license-number'>License Number</label>
-                            <input disabled='true' disabled='true id='license-number' placeholder='License Id Number'>
-                            <label for='date-issued'>Date Issued</label>
-                            <input disabled='true' disabled='true id='date-issued' placeholder='mm/dd/yy' type='date'>
-                            <label for='exp-date'>Expiration Date</label>
-                            <input disabled='true' disabled='true id='exp-date' placeholder='mm/dd/yy' type='date'>
-                        </form>
-                    </div>
-                </section>
-                <section class='post-training-hours'>
-                    <div class='post-training-hours'>
-                        <form class='post-training-hours'>
-                            <label for='authority'>Authority</label>
-                            <input disabled='true' disabled='true id='authority' placeholder='Issued By Who'>
-                            <label for='type'>Training Type</label>
-                            <input disabled='true' disabled='true id='type' placeholder='Type Of Training'>
-                            <label for='hours-completed'>Hours Completed</label>
-                            <input disabled='true' disabled='true id='hours-completed'>
-                            <label doe='date-completed'>Date Completed</label>
-                            <input disabled='true' disabled='true' id='date-completed' placeholder='mm/dd/yy'>
-                            <label for='certificate-url'>Certifitcate URL</label>
-                            <input disabled='true' id='certificate-url'>
-                        </form>
-                    </div>
-                </section>
+        <main>  
+            <section class='post-training-hours'>
+                <div class='training-group'>
+                    <form class='post-training-hours'>
+                        <label for='authority'>Authority</label>
+                        <input disabled='true' disabled='true id='authority' placeholder='Issued By Who'>
+                        <label for='type'>Training Type</label>
+                        <input disabled='true' disabled='true id='type' placeholder='Type Of Training'>
+                        <label for='hours-completed'>Hours Completed</label>
+                        <input disabled='true' disabled='true id='hours-completed'>
+                        <label doe='date-completed'>Date Completed</label>
+                        <input disabled='true' disabled='true' id='date-completed' placeholder='mm/dd/yy'>
+                        <label for='certificate-url'>Certifitcate URL</label>
+                        <input disabled='true' id='certificate-url'>
+                    </form>
+                </div>
             </section>
-
-            <section>
-                <section class='post-required-training required hours'>
-                    <div class='post-training-hours required-hours'>
-                        <form class='post-training-hours required-hours'>
-                            <label for='required-hours'>Required Hours</label>
-                            <input disabled='true' id='required-hours'>
-                            <label for='date-due'>Date Due by</label>
-                            <input disabled='true' id='date-due' placeholder='mm/dd/yy'>
-                        </form>
-                    </div>
-                </section>
-                <section class='post-reminders'>
-                    <div class='post-reminders'>
-                        <form class='post-reminders'>
-                            <label>Reminder title</label>
-                            <input disabled='true' id='reminder-title'>
-                            <label>Due By</label>
-                            <input disabled='true' id='due-by'>
-                            <label>Notes/Task</label>
-                            <textarea id='reminder-notes'></textarea>
-                        </form>
-                    </div>
-                </section>
+            <section class='post-reminders'>
+                <div class='todo-group'>
+                    <form class='add-todo'>
+                        <label>Reminder title</label>
+                        <input disabled='true' id='reminder-title'>
+                        <label>Due By</label>
+                        <input disabled='true' id='due-by'>
+                        <label>Notes/Task</label>
+                        <textarea id='reminder-notes'></textarea>
+                    </form>
+                </div>
             </section>
-
             <section class='post-client update-client'>
-                <div class='post-client update-client'>
+                <div class='client-group'>
                     <form class='post-client update-client'>
                         <label class='get' for='first-name'>Client First Name</label>
                         <input disabled='true' class='get' id='first-name' placeholder='John'>
@@ -106,33 +69,15 @@
                     </form>   
                 </div>
             </section>
-
-            <section class='post-appointment'>
-                <div class='post-appointment'>
-                    <form class='post-appointment'>
-                        <label for='client-name'>Client Name</label>
-                        <input disabled='true' disabled='true id='client-name'>
-                        <label for='place'>Place</label>
-                        <input disabled='true' disabled='true id='place'>
-                        <label for='phone-number'>Phone Number</label>
-                        <input disabled='true' disabled='true id='phone-number'>
-                        <label for='date'>Date</label>
-                        <input disabled='true' disabled='true id='date'>
-                        <label for='time'>Time</label>
-                        <input disabled='true' disabled='true id='time'>
-                        <label for='day'>Day</label>
-                        <input disabled='true' disabled='true id='day'>
-                        <label for='notes'>Notes</label>
-                        <textarea id='appointment-notes'></textarea>
-                    </form>   
-                </div>
-            </section>
         </main>
         <section>
             <div>
                 <button class='buton' id='button' type='submit'>Save</button>
                 <button class='exit' id='exit' type='submit'>Save and Exit Form</button>
-                <button class='get' id='client' type='submit'></button>
+                <button class='get' id='client' type='submit'>Get Client</button>
+                <label for='hidden' class='hidden' aria-details='This label and the following input are hidden from screen view. The input will hold the client id that will be returned with client information to ensure the correct client is being updated. The id will be used to identify the client on the database.' style='display: none'></label>
+                <input id='hidden' class='client_id' style='display: none'>
+
             </div>
         </section>
         <script src='../js/controllers/users/user_form.js'></script>

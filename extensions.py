@@ -21,7 +21,18 @@ These extensions support the system’s rhythm—quietly powering the flows that
 # extensions.py
 import uuid
 from datetime import datetime, timezone
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from utils.guid_type import GUID
+from models import User
 
 db = SQLAlchemy()
+
+login_manager = LoginManager()
+login_manager.login_view = 'ath.login'
+
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)

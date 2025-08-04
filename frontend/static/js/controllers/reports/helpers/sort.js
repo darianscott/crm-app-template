@@ -1,17 +1,17 @@
-export function askSort()  {
+export async function askHowToSort(inputOptions) {
+    
     Swal.fire({
-    title: "Sort Results?",
-    input: "text",
-    inputLabel: "Enter a field to sort by (e.g. user.last_name)",
-    showCancelButton: true,
-    confirmButtonText: "Sort",
-    cancelButtonText: "Skip"
-    }).then(sortResult => {
-        if (sortResult.value) {
-            payload.sort_by = sortResult.value;
-        }
-
-        console.log("Final Payload:", payload);
-        showJSONPreview(payload); // or send to backend
-    });
+        title: "How would you like to your report sorted?",
+        input: "radio",
+        inputOptions,
+        showCancelButton: true,
+        cancelButtonText: "Skip",
+        inputValidatior: (value) => {
+            if (!value) {
+                return 'Please make a selection';
+            }
+        },
+    
+    }), await result
+            return result    
 };

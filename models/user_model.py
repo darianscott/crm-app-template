@@ -1,7 +1,17 @@
+'''
+The model for the User table. It holds everything that is
+directly attatched to the user. It holds license, todo list
+required trainging hours, completed training hours. user name
+first name, last name, id(guid), role,   email, phone number. It is used 
+across all models to tie everything together
+'''
+
+
+from flask_login import UserMixin
 from extensions import db, uuid, datetime, timezone, GUID
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     """
     Represents a system user—typically a broker or agent who owns and operates the CRM.
 

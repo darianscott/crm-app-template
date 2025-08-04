@@ -1,19 +1,56 @@
-function buildResources() {
-  const resources = {};
+import { sendReportPayload } from "./send_payload";
+import { askHowToSort } from "./sort";
 
-  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-    const resourceField = cb.dataset.resource; // e.g. "user-first_name"
-    const isFilterable = cb.dataset.filter === "true";
+async function buildPayload(resource) {
+  const form = document.getElementById(form);
+  const fields = {};
+  const filters = {};
+  const  inputOptions = {};
 
-    const [model, ...fieldParts] = resourceField.split("-");
-    const field = fieldParts.join("_"); // handles multi-part fields
 
-    if (!resources[model]) {
-      resources[model] = {};
+  form.querySelectorAll('input').forEach(el => {
+        // Skip disabled or empty fields
+        if (el.type === 'checkbox' && el.checked) {
+          if (el.name) {
+            fields[el.name] = true;
+          }
+          if (el.dataset.filters) {
+            filters[el.dataset.filters];
+            inputOptions[el.dataset.filters] = el.closest('label').textContent.trim();   
+          }            
+        }
+    });
+
+    // Validate: Make sure we have at least one field to send
+    if (Object.keys(fields).length === 0) {
+        console.error('No fields provided for payload.');
+        alert('Please fill out at least one field before submitting.');
+        return;
+    }
+    
+    const sort = await askHowToSort(inputOptions)
+
+    // Build payload
+    const payload = {
+      resource,
+      fields: fields,
+      filters:filters,
+      joins: false,
+      sort_by: sort,
+      format: 'csv',
+      page: 1,
+      per_page: 30,
     }
 
-    resources[model][field] = isFilterable;
-  });
+    await sendReportPayload();
 
-  return resources;
+
+
+
+
+
+
+
+
+
 }

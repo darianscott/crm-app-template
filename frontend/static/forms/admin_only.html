@@ -10,42 +10,74 @@
     </head>
     <body>
         <header>
-            <h1></h1>
+            <h1>Administration Only</h1>
         </header>
         <section>
             <div>
-                <button type='button' id='add-user-btn' data-target-class='add-user'>Add User</button>
-                <button type='button' id='update-user-btn'  data-target-class='update-user'>Update User</button>
+                <button type='button' id='add-user-btn' data-method='post' data-target-class='add-user'>Add User</button>
+                <button type='button' id='update-user-btn' data-method='patch' data-target-class='update-user'>Update User</button>
+                <button type='button' id='license' class='licnse' data-method='patch' data-resource='user'>Licenses</button>
+             
+             
+                <button data-resource='user' data-method='paste' type='button' id='requred-training' data-target-class='required-hours'>Required Training</button>
+                <button type='button' id='delete' class='delete' data-method='delete'>Delete Usser/Client</button>
                 <button type='button' id='change-password-btn'  data-target-class='change-password'>Change Password</button>
-                <button type='button' id='delete' class='delete'>Delete</button>
+               
+
             </div>
         </section>
         <section>
             <div>
                 <form>
-                    <label>Enter User Name</label>
-                    <input> 
+                    <label>Enter User-name
+                        <input>
+                    </label>
                 </form>
             </div>
         </section>
         <section>
             <div class='add-user update-user'>
                 <form>
-                    <label>User Name</label>
+                    <label><input>User Name</label>
+                    
+                    class='add-user update-user'>First Name</label>
                     <input>
-                    <label>First Name</label>
+                    <label class='add-user update-user'>Last Name</label>
                     <input>
-                    <label>Last Name</label>
+                    <label class='add-user update-user'>Email Address</label>
                     <input>
-                    <label>Email Address</label>
+                    <label class='add-user update-user'>Password</label>
                     <input>
-                    <label>Password</label>
-                    <input>
-                    <label>Role</label>
+                    <label class='add-user update-user'>Role</label>
                     <input>
                 </form>
             </div>
         </section>
+            <section class='post-license'>
+                    <div class='post-license'>
+                        <form class='post-license'>
+                            <label for='license'>License</label>
+                            <input disabled='true' disabled='true id='license' placeholder='Name Of License'>
+                            <label for='license-number'>License Number</label>
+                            <input disabled='true' disabled='true id='license-number' placeholder='License Id Number'>
+                            <label for='date-issued'>Date Issued</label>
+                            <input disabled='true' disabled='true id='date-issued' placeholder='mm/dd/yy' type='date'>
+                            <label for='exp-date'>Expiration Date</label>
+                            <input disabled='true' disabled='true id='exp-date' placeholder='mm/dd/yy' type='date'>
+                        </form>
+                    </div>
+                </section>
+                            <section>
+                <section class='post-required-training required hours'>
+                    <div class='post-training-hours required-hours'>
+                        <form class='post-training-hours required-hours'>
+                            <label for='required-hours'>Required Hours</label>
+                            <input disabled='true' id='required-hours'>
+                            <label for='date-due'>Date Due by</label>
+                            <input disabled='true' id='date-due' placeholder='mm/dd/yy'>
+                        </form>
+                    </div>
+                </section>
         <section class='administration'>
             </div>
 
