@@ -35,4 +35,7 @@ login_manager.login_view = 'ath.login'
 
 @login_manager.user_loader
 def load_user(user_id):
+    '''
+    This function loads a user from the database by their user ID.
+    '''
     return User.query.get(user_id)

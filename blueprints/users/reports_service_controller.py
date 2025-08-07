@@ -13,6 +13,7 @@ Features:
 import logging
 import io
 import csv
+from typing import TypedDict
 from flask import Blueprint, request, jsonify, Response
 from flask_login import login_required, current_user
 from sqlalchemy.exc import SQLAlchemyError
@@ -24,11 +25,23 @@ from extensions import db
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+class ReportPayload(TypedDict):
+    '''
+    Represents how the report payload should be structured.
+    '''
+    resource: str
+    fields: list[str]
+    filters: dict[str, str]
+    sort_by: str | None
+    format: str
+    page: int
+    per_page: int
+
 reports_bp = Blueprint('reports', __name__, url_prefix='/api/reports')
 
 @reports_bp.route('/custom', methods=['POST'])
 @login_required
-def generate_custom_report():
+def generate_custom_report(payload: ReportPayload) -> dict:
     """
     Handles user-generated report requests.
     Validates input, dynamically builds SQLAlchemy queries, and returns
@@ -36,14 +49,13 @@ def generate_custom_report():
     """
     try:
         # --- Parse request ---
-        request_data = request.get_json()
-        resource = request_data.get('resource')
-        fields = request_data.get('fields', [])
-        filters = request_data.get('filters', {})
-        sort_by = request_data.get('sort_by')
-        export_format = request_data.get('format', 'json').lower()
-        page = int(request_data.get('page', 1))
-        per_page = int(request_data.get('per_page', 50))
+        resource = payload.get('resource')
+        fields = payload.get('fields', [])
+        filters = payload.get('filters', {})
+        sort_by = payload.get('sort_by', None)
+        export_format = payload.get('format', 'json').lower()
+        page = int(payload.get('page', 1))
+        per_page = int(payload.get('per_page', 50))
 
         # --- Validate resource ---
         if resource not in MODEL_REGISTRY:
@@ -65,7 +77,7 @@ def generate_custom_report():
         query = db.session.query(*[getattr(model, f) for f in selected_fields])
 
         # --- Apply JOINs if requested ---
-        joins = request_data.get('joins', [])
+        joins = payload.get('joins', [])
         for join in joins:
             if join in allowed_joins and join in MODEL_REGISTRY[resource]["joins"]:
             # Join via relationship attribute name on the base model
@@ -123,5 +135,7 @@ def generate_custom_report():
         # Specific exceptions are handled above; this ensures all
         # failures are logged with context.
         # Logs include route name and request payload for traceability.
-        logger.exception("Unexpected error in generate_custom_report", request.json)
+        logger.exception("Unexpected error in generate_custom_report")
+        logger.exception(request.json)
+
         return jsonify({"error": "Internal Server Error"}), 500

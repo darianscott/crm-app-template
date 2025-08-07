@@ -31,11 +31,11 @@ MODEL_REGISTRY = {
             "todo_is_completed", "todo_date_created",
             "todo_is_active", "todo_message", "training_days_remaining",
             "license_is_compliant", "license_expiration_date",
-            "liense_number", "license_typ"
+            "liense_number", "license_type"
         ],
         "filters": [
             "role", "created_at", "user_name",
-            "first_name","training_completed_hours", "last_name",
+            "training_completed_hours", "last_name",
             "training_days_remaining", "license_expiration_date",
             "license_is_compliant", "license_days_remaining",
             "todo_is_completed", "todo_is_active", "training_date_due", "training_is_compliant" 
@@ -65,7 +65,7 @@ MODEL_REGISTRY = {
                     "testimonial_rating", "interaction_created_at",
                     "interaction_type"
         ],
-        "joins": ["users"],
+        "joins": ["user"],
         "user_scope": "user_id",
         "label": "Client",
         "description": "Represents a person or organization"

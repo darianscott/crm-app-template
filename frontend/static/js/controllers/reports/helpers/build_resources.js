@@ -34,23 +34,12 @@ async function buildPayload(resource) {
     const payload = {
       resource,
       fields: fields,
-      filters:filters,
-      joins: false,
+      filters: filters,
       sort_by: sort,
       format: 'csv',
       page: 1,
       per_page: 30,
     }
 
-    await sendReportPayload();
-
-
-
-
-
-
-
-
-
-
+    await sendReportPayload(payload);
 }

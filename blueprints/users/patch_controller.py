@@ -12,25 +12,44 @@ What it does:
 '''
 
 import logging
-from flask import Blueprint, request, jsonify
+from typing import TypedDict
+from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy.exc import SQLAlchemyError
 from models.registry.model_registry import MODEL_REGISTRY
 from extensions import db
 
+class ReportPayload(TypedDict):
+    '''
+    Represents how the report payload should be structured.
+    '''
+    resource: str
+    resource_id: str
+    fields: list[str]
+
+
 patch_bp = Blueprint('patch', __name__, url_prefix='/api/patch')
 
 @patch_bp.route('/update', methods=['PATCH'])
 @login_required
-def update_resource():
+def update_resource(payload: ReportPayload) -> dict:
     """
     Update an existing resource by its ID or unique key.
     """
     try:
-        request_data = request.get_json()
-        resource = request_data.get('resource')
-        resource_id = request_data.get('id')  # UUID of the record
-        payload_fields = request_data.get('fields', {})
+        resource = payload.get('resource')
+        resource_id = payload.get('resourceid')  # UUID of the record
+        payload_fields = payload.get('fields', {})
+
+        if not resource_id:
+            return jsonify({"error": "Missing 'id' for update"}), 400
+
+        if resource not in MODEL_REGISTRY:
+            return jsonify({"error": f"Invalid resource '{resource}'"}), 400
+
+        resource = payload.get('resource')
+        resource_id = payload.get('resource_id')  # UUID of the record
+        payload_fields = payload.get('fields', {})
 
         if not resource_id:
             return jsonify({"error": "Missing 'id' for update"}), 400

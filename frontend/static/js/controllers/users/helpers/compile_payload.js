@@ -1,8 +1,8 @@
 async function compilePayload(method) {
     const form = document.getElementById(form);
-    const fields = {};
+    const fields = [];
     let resource = '';
-    const clientId = document.getElementById('hidden').value.trim();
+    const resource_id = document.getElementById('hidden').value.trim();
 
     // Select only input, select, and textarea elements inside the form
     form.querySelectorAll('input, select, textarea').forEach(el => {
@@ -23,13 +23,23 @@ async function compilePayload(method) {
         return;
     }
 
-    // Build payload
-    const payload = {
-        clientId: clientId || null,
-        resource: resource,
-        fields: fields
-    };
 
+    // Build payload based on method
+    const payload = {};
+    if (method === 'update') {
+        Object.assign(payload, {
+            resource_id: resource_id || null,
+            resource: resource,
+            fields: fields
+        });
+    } else {
+        Object.assign(payload, {
+            resource: resource,
+            fields: fields
+        });
+    }
+
+    console.log('Payload being sent:', payload);
     console.log('Payload being sent:', payload);
 
     // Determine which request to send
@@ -40,7 +50,6 @@ async function compilePayload(method) {
     } else {
         console.error('Invalid method specified.');
     }
-
     // Reset the form after submission
     form.reset();
 }

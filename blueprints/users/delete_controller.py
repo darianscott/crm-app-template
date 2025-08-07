@@ -11,24 +11,33 @@ What it does:
 the payload must include id
 '''
 import logging
-from flask import Blueprint, request, jsonify
+from typing import TypedDict
+from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy.exc import SQLAlchemyError
 from models.registry.model_registry import MODEL_REGISTRY
 from extensions import db
 
+class ReportPayload(TypedDict):
+    '''
+    Represents how the report payload should be structured.
+    '''
+    resource: str
+    resource_id: str
+
+
+
 delete_bp = Blueprint('delete', __name__, url_prefix='/api/delete')
 
 @delete_bp.route('/delete', methods=['DELETE'])
 @login_required
-def delete_resource():
+def delete_resource(payload: ReportPayload) -> dict:
     """
     Delete a resource by its ID (UUID).
     """
     try:
-        request_data = request.get_json()
-        resource = request_data.get('resource')
-        resource_id = request_data.get('id')
+        resource = payload.get('resource')
+        resource_id = payload.get('resource_id')
 
         if not resource_id:
             return jsonify({"error": "Missing 'id' for deletion"}), 400
